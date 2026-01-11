@@ -1,0 +1,14 @@
+{
+  "1": [
+    { "lang": "ja", "label": "名前", "descript": "名前を入力してください" },
+    { "lang": "en", "label": "Name", "descript": "Input your name" }
+  ]
+  ,"2": [
+    { "lang": "ja", "label": "所属組織名", "descript": "所属組織名を入力してください" },
+    { "lang": "en", "label": "Organization Name", "descript": "Input your organization name" }
+  ]
+  ,"3": [
+    { "lang": "ja", "label": "肩書", "descript": "あなたの肩書を入力してください" },
+    { "lang": "en", "label": "Title", "descript": "Input your title" }
+  ]
+}
