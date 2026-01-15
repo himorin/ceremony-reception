@@ -51,7 +51,7 @@ function genhtml_textchange(fid, val) {
 function genhtml_listchange(fid, val, items) {
   let chtml = '';
   fid += '_'; // placeholder
-  chtml += '<td id="' + fid + 'td">';
+  chtml += '<td id="' + fid + 'td" style="background-color:' + items[val]['color'] + '">';
   chtml += "<span id='" + fid + "cval' title='" + items[val]['desc'] + "'>" + items[val]['name'] + "</span>";
   chtml += "<span id='" + fid + "edit' class='inithide'>";
   chtml += "<select id='" + fid + "new' data-orig='" + val + "'>";
