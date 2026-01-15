@@ -97,6 +97,7 @@ function gendom_listchange(fid, val, items) {
   ccdc.type = 'button';
   ccdc.id = fid + 'confirm';
   ccdc.value = disp_confirm;
+  ccd.appendChild(ccdc);
   ccdc = document.createElement('input');
   ccdc.type = 'button';
   ccdc.id = fid + 'discard';
@@ -110,13 +111,15 @@ function change_start(e) {
   document.getElementById(cid + "cval").style.display = "none";
   document.getElementById(cid + "edit").style.display = "inline";
 }
-function change_confirm(fid) {
+function change_confirm(e) {
+  let fid = e.currentTarget.id.substr(0, e.currentTarget.id.length - 7);
   // exec commit and update following server reply
   document.getElementById(fid + "cval").style.display = "inline";
   document.getElementById(fid + "edit").style.display = "none";
   document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").value;
 }
-function change_discard(fid) {
+function change_discard(e) {
+  let fid = e.currentTarget.id.substr(0, e.currentTarget.id.length - 7);
   document.getElementById(fid + "cval").style.display = "inline";
   document.getElementById(fid + "edit").style.display = "none";
   document.getElementById(fid + "new").value = document.getElementById(fid + "new").getAttribute("data-orig");
@@ -158,8 +161,12 @@ function draw_regline(res) {
   // attach event listeners
   cur_thead.forEach(fid => {
     document.getElementById(cid + fid + '_td').addEventListener('click', change_start);
+    document.getElementById(cid + fid + '_confirm').addEventListener('click', change_confirm);
+    document.getElementById(cid + fid + '_discard').addEventListener('click', change_discard);
   });
   document.getElementById(cid + 'label_td').addEventListener('click', change_start);
+  document.getElementById(cid + 'label_confirm').addEventListener('click', change_confirm);
+  document.getElementById(cid + 'label_discard').addEventListener('click', change_discard);
 };
 window.addEventListener('load', () => {
   get_data(api_fieldinfo, '', draw_fieldhead);
