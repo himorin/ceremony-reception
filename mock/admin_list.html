@@ -52,14 +52,14 @@ function genhtml_listchange(fid, val, items) {
   let chtml = '';
   fid += '_'; // placeholder
   chtml += '<td id="' + fid + 'td">';
-  chtml += "<span id='" + fid + "cval'>" + items[val] + "</span>";
+  chtml += "<span id='" + fid + "cval' title='" + items[val]['desc'] + "'>" + items[val]['name'] + "</span>";
   chtml += "<span id='" + fid + "edit' class='inithide'>";
   chtml += "<select id='" + fid + "new' data-orig='" + val + "'>";
   Object.keys(items).forEach(key => {
     if (key == val) {
-      chtml += "<option value='" + key + "' selected>" + items[key] + "</option>";
+      chtml += "<option value='" + key + "' selected>" + items[key]['name'] + "</option>";
     } else {
-      chtml += "<option value='" + key + "'>" + items[key] + "</option>";
+      chtml += "<option value='" + key + "'>" + items[key]['name'] + "</option>";
     }
   });
   chtml += "</select>";
@@ -104,7 +104,7 @@ function draw_reginfo(res = null) {
 }
 function draw_regline(res) {
   let chtml = '';
-  let cid = line_head + '_' + res['id'] + '_';
+  let cid = line_head + res['id'] + '_';
   chtml += '<tr id="' + cid + 'tr">';
   chtml += '<td>' + text_item(res, 'show') + '</td>';
   cur_thead.forEach(fid => { chtml += genhtml_textchange(cid + fid, text_item(res, fid)); });
