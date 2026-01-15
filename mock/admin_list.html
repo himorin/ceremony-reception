@@ -117,14 +117,15 @@ function change_confirm(e) {
   document.getElementById(fid + "cval").style.display = "inline";
   document.getElementById(fid + "edit").style.display = "none";
   document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").value;
+  e.stopPropagation();
 }
 function change_discard(e) {
   let fid = e.currentTarget.id.substr(0, e.currentTarget.id.length - 7);
   document.getElementById(fid + "cval").style.display = "inline";
   document.getElementById(fid + "edit").style.display = "none";
   document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").getAttribute("data-orig");
+  e.stopPropagation();
 }
-
 function text_item(hash, fid) {
   if (hash[fid] != undefined) { return hash[fid]; } else { return ''; }
 }
