@@ -69,6 +69,11 @@ function genhtml_listchange(fid, val, items) {
   chtml += '</td>';
   return chtml;
 }
+function change_start(e) {
+  let cid = e.currentTarget.id.substr(0, e.currentTarget.id.length - 2);
+  document.getElementById(cid + "cval").style.display = "none";
+  document.getElementById(cid + "edit").style.display = "inline";
+}
 function change_confirm(fid) {
   // exec commit and update following server reply
   document.getElementById(fid + "cval").style.display = "inline";
@@ -109,8 +114,13 @@ function draw_regline(res) {
   chtml += '<td>' + text_item(res, 'show') + '</td>';
   cur_thead.forEach(fid => { chtml += genhtml_textchange(cid + fid, text_item(res, fid)); });
   chtml += genhtml_listchange(cid + 'label', text_item(res, 'label'), c_labels);
+  chtml += '<td></td>';
   chtml += '</tr>';
   document.getElementById('list_body').innerHTML += chtml;
+  // attach event listeners
+  cur_thead.forEach(fid => {
+    document.getElementById(cid + fid + '_td').addEventListener('click', change_start);
+  });
 };
 window.addEventListener('load', () => {
   get_data(api_fieldinfo, '', draw_fieldhead);
