@@ -113,17 +113,25 @@ function change_start(e) {
 }
 function change_confirm(e) {
   let fid = e.currentTarget.id.substr(0, e.currentTarget.id.length - 7);
-  // exec commit and update following server reply
+  // exec commit and update following server reply, remove all following lines
   document.getElementById(fid + "cval").style.display = "inline";
   document.getElementById(fid + "edit").style.display = "none";
-  document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").value;
+  if (document.getElementById(fid + "new").tagName == 'SELECT') {
+    document.getElementById(fid + "cval").innerText = c_labels[document.getElementById(fid + "new").value]['name'];
+  } else {
+    document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").value;
+  }
   e.stopPropagation();
 }
 function change_discard(e) {
   let fid = e.currentTarget.id.substr(0, e.currentTarget.id.length - 7);
   document.getElementById(fid + "cval").style.display = "inline";
   document.getElementById(fid + "edit").style.display = "none";
-  document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").getAttribute("data-orig");
+  if (document.getElementById(fid + "new").tagName == 'SELECT') {
+    document.getElementById(fid + "cval").innerText = c_labels[document.getElementById(fid + "new").value]['name'];
+  } else {
+    document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").value;
+  }
   e.stopPropagation();
 }
 function text_item(hash, fid) {
@@ -145,20 +153,23 @@ function draw_fieldhead(res = null) {
 }
 function draw_reginfo(res = null) {
   if (res != null) { cur_reg = res; }
-  cur_reg.forEach(reg => { draw_regline(reg); });
+  cur_reg.forEach(reg => {
+    let crow = document.createElement('tr');
+    crow.id = cid + 'tr';
+    draw_regline(crow, reg);
+    document.getElementById('list_body').appendChild(crow);
+  });
 }
-function draw_regline(res) {
+function draw_regline(crow, res) {
   let cid = line_head + res['id'] + '_';
-  let crow = document.createElement('tr');
-  crow.id = cid + 'tr';
-  let celem = document.createElement('td');
+  let celem;
+  celem = document.createElement('td');
   celem.innerText = text_item(res, 'show');
   crow.appendChild(celem);
   cur_thead.forEach(fid => { crow.appendChild(gendom_textchange(cid + fid, text_item(res, fid))); });
   crow.appendChild(gendom_listchange(cid + 'label', text_item(res, 'label'), c_labels));
   celem = document.createElement('td');
   crow.appendChild(celem);
-  document.getElementById('list_body').appendChild(crow);
   // attach event listeners
   cur_thead.forEach(fid => {
     document.getElementById(cid + fid + '_td').addEventListener('click', change_start);
