@@ -155,7 +155,7 @@ function draw_reginfo(res = null) {
   if (res != null) { cur_reg = res; }
   cur_reg.forEach(reg => {
     let crow = document.createElement('tr');
-    crow.id = cid + 'tr';
+    crow.id = line_head + reg['id'] + '_tr';
     draw_regline(crow, reg);
     document.getElementById('list_body').appendChild(crow);
   });
