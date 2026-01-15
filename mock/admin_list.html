@@ -145,16 +145,16 @@ function draw_reginfo(res = null) {
 }
 function draw_regline(res) {
   let cid = line_head + res['id'] + '_';
-  let cdom = document.createElement('tr');
-  cdom.id = cid + 'tr';
+  let crow = document.createElement('tr');
+  crow.id = cid + 'tr';
   let celem = document.createElement('td');
   celem.innerText = text_item(res, 'show');
-  cdom.appendChild(celem);
-  cur_thead.forEach(fid => { cdom.appendChild(gendom_textchange(cid + fid, text_item(res, fid))); });
-  cdom.appendChild(gendom_listchange(cid + 'label', text_item(res, 'label'), c_labels));
+  crow.appendChild(celem);
+  cur_thead.forEach(fid => { crow.appendChild(gendom_textchange(cid + fid, text_item(res, fid))); });
+  crow.appendChild(gendom_listchange(cid + 'label', text_item(res, 'label'), c_labels));
   celem = document.createElement('td');
-  cdom.appendChild(celem);
-  document.getElementById('list_body').appendChild(cdom);
+  crow.appendChild(celem);
+  document.getElementById('list_body').appendChild(crow);
   // attach event listeners
   cur_thead.forEach(fid => {
     document.getElementById(cid + fid + '_td').addEventListener('click', change_start);
