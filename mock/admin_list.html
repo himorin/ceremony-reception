@@ -93,15 +93,15 @@ function gendom_listchange(fid, val, items) {
   });
   ccdc.innerHTML = chtml;
   ccd.appendChild(ccdc);
-  ccd = document.createElement('input');
-  ccd.type = 'button';
-  ccd.id = fid + 'confirm';
-  ccd.value = disp_confirm;
-  ccd = document.createElement('input');
-  ccd.type = 'button';
-  ccd.id = fid + 'discard';
-  ccd.value = disp_discard;
-  ccd.appendChild(ccd);
+  ccdc = document.createElement('input');
+  ccdc.type = 'button';
+  ccdc.id = fid + 'confirm';
+  ccdc.value = disp_confirm;
+  ccdc = document.createElement('input');
+  ccdc.type = 'button';
+  ccdc.id = fid + 'discard';
+  ccdc.value = disp_discard;
+  ccd.appendChild(ccdc);
   cdom.appendChild(ccd);
   return cdom;
 }
