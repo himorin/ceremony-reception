@@ -22,7 +22,7 @@ CREATE TABLE eventinput (
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE fieldinfo (
-  id               int UNSIGNED NOT NULL                           ,
+  id               int          NOT NULL                           ,
   lang             text         NOT NULL                           ,
   label            text         NOT NULL                           ,
   descript         text         NOT NULL                           

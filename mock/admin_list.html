@@ -4,9 +4,125 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>登録者管理画面</title>
-  <script src="admin_list.js"></script>
+  <script>
+<!--
+const api_fieldinfo = "fieldinfo.json";
+const api_labels = "labels.json";
+const api_reginfo = "reginfo.json";
+const disp_confirm = '&#x2611;';
+const disp_discard = '&#x274c;';
+const line_head = 'regline_';
+let c_fields;
+let c_labels;
+let cur_reg;
+let c_lang = 'ja';
+let cur_thead;
+
+function get_data(api, query, callback) {
+  fetch(api + '?' + query)
+  .then((res) => {
+    if (res.ok) { return res.json(); }
+    else { throw Error('failed to fetch data'); }
+  }).then((res) => {
+    callback(res);
+  }).catch((e) => {
+    window.alert("Data fetch errror ({}): {}".format(api, e.message));
+  });
+}
+
+function genhtml_textchange(fid, val) {
+  let chtml = '';
+  fid += '_'; // placeholder
+  chtml += '<td id="' + fid + 'td">';
+  chtml += "<span id='" + fid + "cval'>" + val + "</span>";
+  chtml += "<span id='" + fid + "edit' class='inithide'>";
+  chtml += "<input type='text' id='" + fid + "new' value='" + val + "' data-orig='" + val + "'>";
+  chtml += "<input type='button' id='" + fid + "confirm' value='" + disp_confirm + "'>";
+  chtml += "<input type='button' id='" + fid + "discard' value='" + disp_discard + "'>";
+  chtml += "</span>";
+  chtml += '</td>';
+  return chtml;
+}
+function genhtml_listchange(fid, val, items) {
+  let chtml = '';
+  fid += '_'; // placeholder
+  chtml += '<td id="' + fid + 'td">';
+  chtml += "<span id='" + fid + "cval'>" + items[val] + "</span>";
+  chtml += "<span id='" + fid + "edit' class='inithide'>";
+  chtml += "<select id='" + fid + "new' data-orig='" + val + "'>";
+  Object.keys(items).forEach(key => {
+    if (key == val) {
+      chtml += "<option value='" + key + "' selected>" + items[key] + "</option>";
+    } else {
+      chtml += "<option value='" + key + "'>" + items[key] + "</option>";
+    }
+  });
+  chtml += "</select>";
+  chtml += "<input type='button' id='" + fid + "confirm' value='" + disp_confirm + "'>";
+  chtml += "<input type='button' id='" + fid + "discard' value='" + disp_discard + "'>";
+  chtml += "</span>";
+  chtml += '</td>';
+  return chtml;
+}
+function change_confirm(fid) {
+  // exec commit and update following server reply
+  document.getElementById(fid + "cval").style.display = "inline";
+  document.getElementById(fid + "edit").style.display = "none";
+  document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").value;
+}
+function change_discard(fid) {
+  document.getElementById(fid + "cval").style.display = "inline";
+  document.getElementById(fid + "edit").style.display = "none";
+  document.getElementById(fid + "new").value = document.getElementById(fid + "new").getAttribute("data-orig");
+}
+
+function text_item(hash, fid) {
+  if (hash[fid] != undefined) { return hash[fid]; } else { return ''; }
+}
+function draw_fieldhead(res = null) {
+  if (res != null) { c_fields = res; }
+  let chtml = '';
+  chtml += '<tr>';
+  chtml += '<th></th>'; // showup
+  cur_thead = c_fields.keys;
+  cur_thead.forEach(fid => {
+    chtml += '<th>' + c_fields[fid][c_lang]['label'] + '</th>';
+  })
+  chtml += '<th></th>'; // label
+  chtml += '<th></th>'; // links
+  chtml += '</tr>';
+  document.getElementById('list_head').innerHTML = chtml;
+}
+function draw_reginfo(res = null) {
+  if (res != null) { cur_reg = res; }
+  cur_reg.forEach(reg => { draw_regline(reg); });
+}
+function draw_regline(res) {
+  let chtml = '';
+  let cid = line_head + '_' + res['id'] + '_';
+  chtml += '<tr id="' + cid + 'tr">';
+  chtml += '<td>' + text_item(res, 'show') + '</td>';
+  cur_thead.forEach(fid => { chtml += genhtml_textchange(cid + fid, text_item(res, fid)); });
+  chtml += genhtml_listchange(cid + 'label', text_item(res, 'label'), c_labels);
+  chtml += '</tr>';
+  document.getElementById('list_body').innerHTML += chtml;
+};
+window.addEventListener('load', () => {
+  get_data(api_fieldinfo, '', draw_fieldhead);
+  get_data(api_labels, '', (res) => { c_labels = res; });
+  get_data(api_reginfo, '', draw_reginfo);
+});
+-->
+  </script>
 </head>
 <body>
-  
+<h1>登録者一覧・編集画面</h1>
+<p>
+  このページはモックです。表示されているデータはテスト用の静的なデータファイルを参照しており、編集しても更新されません。
+</p>
+<table>
+  <thead id="list_head"></thead>
+  <tbody id="list_body"></tbody>
+</table>
 </body>
 </html>

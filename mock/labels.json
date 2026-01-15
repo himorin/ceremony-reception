@@ -1,4 +1,5 @@
 {
+  "-1": { "name": "(unassigned)", "desc": "(no label assigned)", "color": "#FFFFFF" },
   "0": { "name": "VVIP", "desc": "Very Very Important Person", "color": "FFD700" },
   "1": { "name": "VIP", "desc": "Very Important Person", "color": "C0C0C0" }
 }
