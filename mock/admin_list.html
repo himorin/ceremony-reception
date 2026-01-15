@@ -158,6 +158,7 @@ function draw_reginfo(res = null) {
     crow.id = line_head + reg['id'] + '_tr';
     draw_regline(crow, reg);
     document.getElementById('list_body').appendChild(crow);
+    event_regline(reg);
   });
 }
 function draw_regline(crow, res) {
@@ -170,7 +171,9 @@ function draw_regline(crow, res) {
   crow.appendChild(gendom_listchange(cid + 'label', text_item(res, 'label'), c_labels));
   celem = document.createElement('td');
   crow.appendChild(celem);
-  // attach event listeners
+};
+function event_regline(res) {
+  let cid = line_head + res['id'] + '_';
   cur_thead.forEach(fid => {
     document.getElementById(cid + fid + '_td').addEventListener('click', change_start);
     document.getElementById(cid + fid + '_confirm').addEventListener('click', change_confirm);
@@ -179,7 +182,7 @@ function draw_regline(crow, res) {
   document.getElementById(cid + 'label_td').addEventListener('click', change_start);
   document.getElementById(cid + 'label_confirm').addEventListener('click', change_confirm);
   document.getElementById(cid + 'label_discard').addEventListener('click', change_discard);
-};
+}
 window.addEventListener('load', () => {
   get_data(api_fieldinfo, '', draw_fieldhead);
   get_data(api_labels, '', (res) => { c_labels = res; });
