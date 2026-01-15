@@ -84,7 +84,7 @@ function draw_fieldhead(res = null) {
   let chtml = '';
   chtml += '<tr>';
   chtml += '<th></th>'; // showup
-  cur_thead = c_fields.keys;
+  cur_thead = Object.keys(c_fields);
   cur_thead.forEach(fid => {
     chtml += '<th>' + c_fields[fid][c_lang]['label'] + '</th>';
   })
