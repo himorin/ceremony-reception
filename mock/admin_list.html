@@ -26,7 +26,7 @@ function get_data(api, query, callback) {
   }).then((res) => {
     callback(res);
   }).catch((e) => {
-    window.alert("Data fetch errror ({}): {}".format(api, e.message));
+    window.alert("Data fetch errror (" + api + "): " + e.message);
   });
 }
 
