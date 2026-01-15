@@ -36,25 +36,54 @@ function get_data(api, query, callback) {
 }
 
 function genhtml_textchange(fid, val) {
-  let chtml = '';
   fid += '_'; // placeholder
-  chtml += '<td id="' + fid + 'td">';
-  chtml += "<span id='" + fid + "cval'>" + val + "</span>";
-  chtml += "<span id='" + fid + "edit' class='inithide'>";
-  chtml += "<input type='text' id='" + fid + "new' value='" + val + "' data-orig='" + val + "'>";
-  chtml += "<input type='button' id='" + fid + "confirm' value='" + disp_confirm + "'>";
-  chtml += "<input type='button' id='" + fid + "discard' value='" + disp_discard + "'>";
-  chtml += "</span>";
-  chtml += '</td>';
-  return chtml;
+  let cdom = document.createElement('td');
+  cdom.id = fid + 'td';
+  let ccd, ccdc;
+  ccd = document.createElement('span');
+  ccd.id = fid + 'cval';
+  ccd.innerText = val;
+  cdom.appendChild(ccd);
+  ccd = document.createElement('span');
+  ccd.id = fid + 'edit';
+  ccd.className = 'inithide';
+  ccdc = document.createElement('input');
+  ccdc.type = 'text';
+  ccdc.id = fid + 'new';
+  ccdc.value = val;
+  ccdc.setAttribute('data-orig', val);
+  ccd.appendChild(ccdc);
+  ccdc = document.createElement('input');
+  ccdc.type = 'button';
+  ccdc.id = fid + 'confirm';
+  ccdc.value = disp_confirm;
+  ccd.appendChild(ccdc);
+  ccdc = document.createElement('input');
+  ccdc.type = 'button';
+  ccdc.id = fid + 'discard';
+  ccdc.value = disp_discard;
+  ccd.appendChild(ccdc);
+  cdom.appendChild(ccd);
+  return cdom;
 }
 function genhtml_listchange(fid, val, items) {
-  let chtml = '';
   fid += '_'; // placeholder
-  chtml += '<td id="' + fid + 'td" style="background-color:' + items[val]['color'] + '">';
-  chtml += "<span id='" + fid + "cval' title='" + items[val]['desc'] + "'>" + items[val]['name'] + "</span>";
-  chtml += "<span id='" + fid + "edit' class='inithide'>";
-  chtml += "<select id='" + fid + "new' data-orig='" + val + "'>";
+  let chtml = '';
+  let cdom = document.createElement('td');
+  cdom.id = fid + 'td';
+  cdom.style.backgroundColor = items[val]['color'];
+  let ccd, ccdc;
+  ccd = document.createElement('span');
+  ccd.id = fid + 'cval';
+  ccd.title = items[val]['desc'];
+  ccd.innerText = items[val]['name'];
+  cdom.appendChild(ccd);
+  ccd = document.createElement('span');
+  ccd.id = fid + 'edit';
+  ccd.className = 'inithide';
+  ccdc = document.createElement('select');
+  ccdc.id = fid + 'new';
+  ccdc.setAttribute('data-orig', val);
   Object.keys(items).forEach(key => {
     if (key == val) {
       chtml += "<option value='" + key + "' selected>" + items[key]['name'] + "</option>";
@@ -62,12 +91,19 @@ function genhtml_listchange(fid, val, items) {
       chtml += "<option value='" + key + "'>" + items[key]['name'] + "</option>";
     }
   });
-  chtml += "</select>";
-  chtml += "<input type='button' id='" + fid + "confirm' value='" + disp_confirm + "'>";
-  chtml += "<input type='button' id='" + fid + "discard' value='" + disp_discard + "'>";
-  chtml += "</span>";
-  chtml += '</td>';
-  return chtml;
+  ccdc.innerHTML = chtml;
+  ccd.appendChild(ccdc);
+  ccd = document.createElement('input');
+  ccd.type = 'button';
+  ccd.id = fid + 'confirm';
+  ccd.value = disp_confirm;
+  ccd = document.createElement('input');
+  ccd.type = 'button';
+  ccd.id = fid + 'discard';
+  ccd.value = disp_discard;
+  ccd.appendChild(ccd);
+  cdom.appendChild(ccd);
+  return cdom;
 }
 function change_start(e) {
   let cid = e.currentTarget.id.substr(0, e.currentTarget.id.length - 2);
@@ -108,19 +144,22 @@ function draw_reginfo(res = null) {
   cur_reg.forEach(reg => { draw_regline(reg); });
 }
 function draw_regline(res) {
-  let chtml = '';
   let cid = line_head + res['id'] + '_';
-  chtml += '<tr id="' + cid + 'tr">';
-  chtml += '<td>' + text_item(res, 'show') + '</td>';
-  cur_thead.forEach(fid => { chtml += genhtml_textchange(cid + fid, text_item(res, fid)); });
-  chtml += genhtml_listchange(cid + 'label', text_item(res, 'label'), c_labels);
-  chtml += '<td></td>';
-  chtml += '</tr>';
-  document.getElementById('list_body').innerHTML += chtml;
+  let cdom = document.createElement('tr');
+  cdom.id = cid + 'tr';
+  let celem = document.createElement('td');
+  celem.innerText = text_item(res, 'show');
+  cdom.appendChild(celem);
+  cur_thead.forEach(fid => { cdom.appendChild(gendom_textchange(cid + fid, text_item(res, fid))); });
+  cdom.appendChild(gendom_listchange(cid + 'label', text_item(res, 'label'), c_labels));
+  celem = document.createElement('td');
+  cdom.appendChild(celem);
+  document.getElementById('list_body').appendChild(cdom);
   // attach event listeners
   cur_thead.forEach(fid => {
     document.getElementById(cid + fid + '_td').addEventListener('click', change_start);
   });
+  document.getElementById(cid + 'label_td').addEventListener('click', change_start);
 };
 window.addEventListener('load', () => {
   get_data(api_fieldinfo, '', draw_fieldhead);
