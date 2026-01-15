@@ -128,9 +128,9 @@ function change_discard(e) {
   document.getElementById(fid + "cval").style.display = "inline";
   document.getElementById(fid + "edit").style.display = "none";
   if (document.getElementById(fid + "new").tagName == 'SELECT') {
-    document.getElementById(fid + "cval").innerText = c_labels[document.getElementById(fid + "new").value]['name'];
+    document.getElementById(fid + "cval").innerText = c_labels[document.getElementById(fid + "new").getAttribute('data-orig')]['name'];
   } else {
-    document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").value;
+    document.getElementById(fid + "cval").innerText = document.getElementById(fid + "new").getAttribute('data-orig');
   }
   e.stopPropagation();
 }
